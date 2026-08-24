@@ -1,6 +1,4 @@
-from datetime import datetime
-
-from sqlalchemy import DateTime, ForeignKey, String, func
+from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from database.base import Base

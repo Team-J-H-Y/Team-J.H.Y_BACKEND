@@ -6,8 +6,8 @@ from sqlalchemy.orm import Mapped, mapped_column
 from database.base import Base
 
 
-class Subscribe(Base):
-    __tablename__ = "subscribe"
+class State(Base):
+    __tablename__ = "state"
 
     device_id: Mapped[str] = mapped_column(
         String(24),
