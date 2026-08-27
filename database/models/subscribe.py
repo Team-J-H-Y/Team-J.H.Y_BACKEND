@@ -16,7 +16,7 @@ class Subscribe(Base):
     )
 
     user_id: Mapped[str] = mapped_column(
-        String(24),
+        String(255),
         ForeignKey("users.user_id"),
         nullable=False,
     )

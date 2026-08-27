@@ -5,24 +5,18 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 from database.base import Base
 
-
-class State(Base):
-    __tablename__ = "state"
+class Favorite(Base):
+    __tablename__ = "favorite"
 
     device_id: Mapped[str] = mapped_column(
         String(24),
         ForeignKey("devices.device_id"),
         primary_key=True,
     )
-
-    state: Mapped[str] = mapped_column(
-        String(9),
-        nullable=False,
-        server_default="not_used",
-    )
-
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        nullable=False,
-        server_default=func.now(),
+    
+    user_id: Mapped[str] = mapped_column(
+            String(255),
+            ForeignKey("users.user_id"),
+            unique=True,
+            nullable=False,
     )

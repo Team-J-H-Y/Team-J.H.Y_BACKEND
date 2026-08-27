@@ -10,3 +10,9 @@ class Devices(Base):
         String(24),
         primary_key=True,
     )
+    
+    device_name: Mapped[str] = mapped_column(
+            String(24),
+            unique=True,
+            nullable=False,
+    )

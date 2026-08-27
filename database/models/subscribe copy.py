@@ -6,8 +6,8 @@ from sqlalchemy.orm import Mapped, mapped_column
 from database.base import Base
 
 
-class State(Base):
-    __tablename__ = "state"
+class Subscribe_log(Base):
+    __tablename__ = "subscribe_log"
 
     device_id: Mapped[str] = mapped_column(
         String(24),
@@ -15,14 +15,21 @@ class State(Base):
         primary_key=True,
     )
 
-    state: Mapped[str] = mapped_column(
-        String(9),
+    user_id: Mapped[str] = mapped_column(
+        String(255),
+        ForeignKey("users.user_id"),
         nullable=False,
-        server_default="not_used",
     )
 
-    updated_at: Mapped[datetime] = mapped_column(
+    created_at: Mapped[datetime] = mapped_column(
         DateTime,
         nullable=False,
         server_default=func.now(),
     )
+
+    state: Mapped[str] = mapped_column(
+        "subscribe-state",
+        String(15),
+        nullable=False,
+        server_default="not_subscribed",
+    ) 
