@@ -4,11 +4,26 @@ from sqlalchemy import select
 from datetime import datetime
 
 from database.connection import Create_db
+
+from app.Function.Dev.Com_dev import router_dev
+from app.Function.Login_and_SignUp.login import router_login
+from app.Function.Login_and_SignUp.signup import router_signup
+
 from database.models.state import State
-from database.Schemas.schema import Device_State
+from database.models.devices import Devices
+
+from database.base import Base
 #--------------------------------
 #API 호출
 app = FastAPI()
+
+#기능 api 호출
+app.include_router(router_dev)
+app.include_router(router_login)
+app.include_router(router_signup)
+
+print(Base.metadata.tables.keys())
+print(State.__table__.metadata is Devices.__table__.metadata)
 
 #메인 화면 호출
 @app.get("/")
@@ -30,34 +45,3 @@ def get_states(device_id: int, db: Session = Depends(Create_db)):
     state = db.scalar(stmt)
 
     return state
-
-#건조기 상태 변화 업데이트
-@app.put("/api/state/{device_id}")
-def update_state(device_id: str, state_data: Device_State, db: Session = Depends(Create_db)):
-
-    #검증 코드 추가 필요
-
-
-    #판단 결과로 state를 업데이트
-    update_state = db.get(State, device_id)
-
-    
-
-    db.add(new_state)
-    db.commit()
-    db.refresh(new_state)
-
-    return {
-  "success": True,
-  "message": "Success data",
-  "data": {
-		"deviceID": new_state.device_id,
-		"state": new_state.state,
-		"Vibration": new_state.vibration,
-		"V_Data_before": new_state.v_data_before,
-		"V_Data_After": new_state.v_data_after,
-		"Current": new_state.current,
-		"C_Data": new_state.c_data
-	}
-}
-
