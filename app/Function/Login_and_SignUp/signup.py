@@ -8,8 +8,6 @@ from database.Schemas.signup_schema import SignupData
 from database.models.users import Users
 
 #--------------------------------
-#API 호출
-app = FastAPI()
 
 #라우터 연결
 router_signup = APIRouter()
@@ -17,5 +15,7 @@ router_signup = APIRouter()
 #회원가입 API
 @router_signup.post("/api/users/signup")
 def signup(User_data: SignupData, db: Session = Depends(Create_db)):
-    #이메일 중복 확인
-    existing_user = db.scalar(select(User).where(User.email == User_data.email))
+
+
+
+    pass
