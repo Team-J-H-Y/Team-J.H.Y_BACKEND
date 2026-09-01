@@ -4,10 +4,10 @@ from datetime import datetime
 
 from database.connection import Create_db
 
-from database.models.state import State
-from database.Schemas.schema import Device_State
-from database.models.state_log import State_log
-from database.models.devices  import Devices
+from models.state import State
+from Schemas.schema import Device_State
+from models.state_log import State_log
+from models.devices import Devices
 #--------------------------------
 
 #라우터 연결

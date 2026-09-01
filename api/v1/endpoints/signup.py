@@ -4,8 +4,8 @@ from sqlalchemy import select
 from datetime import datetime
 
 from database.connection import Create_db
-from database.Schemas.signup_schema import SignupData
-from database.models.users import Users
+from Schemas.signup_schema import SignupData
+from models.users import Users
 
 #--------------------------------
 

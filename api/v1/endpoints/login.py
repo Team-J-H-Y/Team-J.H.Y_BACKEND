@@ -5,8 +5,8 @@ from datetime import datetime
 
 from database.connection import Create_db
 
-from database.models.state import State
-from database.Schemas.schema import Device_State
+from models.state import State
+from Schemas.schema import Device_State
 #--------------------------------
 #API 호출
 app = FastAPI()

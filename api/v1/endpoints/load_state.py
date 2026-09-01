@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 #파일 연결
-from database.models.state import State
+from models.state import State
 #----------라우터 연결----------
 router_load_state = APIRouter()
 

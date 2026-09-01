@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 
-from app.Function.Dev.Com_dev import router_dev
-from app.Function.Login_and_SignUp.login import router_login
-from app.Function.Login_and_SignUp.signup import router_signup
-from app.Function.load_state.load_state import router_load_state
+from api.v1.endpoints.update_state import router_dev
+from api.v1.endpoints.login import router_login
+from api.v1.endpoints.signup import router_signup
+from api.v1.endpoints.load_state import router_load_state
 #--------------------------------
 #API 호출
 app = FastAPI()
