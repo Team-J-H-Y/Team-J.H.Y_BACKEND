@@ -5,7 +5,7 @@ from datetime import datetime
 from database.connection import Create_db
 
 from models.state import State
-from Schemas.schema import Device_State
+from Schemas.senser_schema import Device_State
 from models.state_log import State_log
 from models.devices import Devices
 #--------------------------------
@@ -14,7 +14,7 @@ from models.devices import Devices
 router_dev = APIRouter()
 
 #건조기 상태 변화 업데이트
-@router_dev.patch("/api/state/{device_id}")
+@router_dev.patch("/api/v1/state/{device_id}")
 def update_state(device_id: str, state_data: Device_State, db: Session = Depends(Create_db)):
 
     now = datetime.now()

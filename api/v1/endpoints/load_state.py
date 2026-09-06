@@ -11,7 +11,7 @@ router_load_state = APIRouter()
 
 
 #건조기 테이블 조회
-@router_load_state.get("/api/state/all")
+@router_load_state.get("/api/v1/state/all")
 def get_states(db: Session = Depends(Create_db)):
     stmt = select(State)
     state = db.scalar(stmt).all()
@@ -19,7 +19,7 @@ def get_states(db: Session = Depends(Create_db)):
     return state
 
 #개별 건조기 테이블 조회
-@router_load_state.get("/api/state/{device_id}")
+@router_load_state.get("/api/v1/state/{device_id}")
 def get_states(device_id: str, db: Session = Depends(Create_db)):
     stmt = select(State, device_id)
     state = db.scalar(stmt)

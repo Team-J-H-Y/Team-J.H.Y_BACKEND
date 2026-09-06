@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, String, func
+from sqlalchemy import BINARY, ForeignKey, String, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from database.base import Base
@@ -14,9 +14,10 @@ class Favorite(Base):
         primary_key=True,
     )
     
-    user_id: Mapped[str] = mapped_column(
-            String(255),
+    user_id: Mapped[bytes] = mapped_column(
+            BINARY(16),
             ForeignKey("users.user_id"),
-            unique=True,
+            primary_key=True,
             nullable=False,
+            unique=True
     )

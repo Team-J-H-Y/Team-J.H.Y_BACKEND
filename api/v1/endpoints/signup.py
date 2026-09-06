@@ -13,7 +13,7 @@ from models.users import Users
 router_signup = APIRouter()
 
 #회원가입 API
-@router_signup.post("/api/users/signup")
+@router_signup.post("/api/v1/users/signup")
 def signup(User_data: SignupData, db: Session = Depends(Create_db)):
 
 

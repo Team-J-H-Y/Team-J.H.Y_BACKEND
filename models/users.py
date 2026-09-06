@@ -1,4 +1,4 @@
-from sqlalchemy import String, LargeBinary
+from sqlalchemy import String, BINARY
 from sqlalchemy.orm import Mapped, mapped_column
 
 
@@ -7,19 +7,9 @@ from database.base import Base
 class Users(Base):
     __tablename__ = "users"
 
-    user_id: Mapped[str] = mapped_column(
-        String(255),
-        primary_key=True,
-    )
-
-    # image: Mapped[bytes] = mapped_column(
-    #     LargeBinary,
-    #     nullable=True,
-    # )
-
-    image: Mapped[str] = mapped_column(
-            String(500),
-            nullable=True,
+    user_id: Mapped[bytes] = mapped_column(
+        BINARY(16),
+        primary_key=True
     )
 
     email: Mapped[str] = mapped_column(
@@ -45,10 +35,3 @@ class Users(Base):
         nullable=False,
         unique=True
     )
-"""
-    phone: Mapped[str] = mapped_column(
-        String(20),
-        nullable=False,
-        unique=True
-    )
-"""
