@@ -5,7 +5,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 from database.base import Base
 
-class Session(Base):
+class Session_Model(Base):
     __tablename__ = "session"
 
     session_id: Mapped[str] = mapped_column(
