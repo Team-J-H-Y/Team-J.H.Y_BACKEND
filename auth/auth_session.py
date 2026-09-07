@@ -24,7 +24,7 @@ def check_session(session_id: str, db:Session)-> Users | None:
         db.commit()
         return None
 
-    #일치하는 사용자 찾기
+    #일치하는 사용자 검증
     user = db.get(
         Users,
         user_session.user_id
@@ -33,6 +33,7 @@ def check_session(session_id: str, db:Session)-> Users | None:
     if user is None:
         return None
 
+    #사용자 반환
     return user
 
 #세션 검증 함수 호출 함수
@@ -55,4 +56,5 @@ def get_current_user(session_id: str | None = Cookie(default=None),db: Session =
             detail="유효하지 않거나 만료된 세션입니다."
         )
 
+    #사용자 반환
     return user
