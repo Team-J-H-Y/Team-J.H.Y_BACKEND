@@ -58,3 +58,20 @@ def get_current_user(session_id: str | None = Cookie(default=None),db: Session =
 
     #사용자 반환
     return user
+
+#세션 삭제 함수
+def delete_session(session_id:str, db:Session) -> None:
+
+    #세션 존재 여부 검증
+    user_session = db.get(
+        Session_Model,
+        session_id
+    )
+
+    if user_session is None:
+        return None
+
+    #해당 세션 삭제
+    db.delete(user_session)
+    db.commit()
+
