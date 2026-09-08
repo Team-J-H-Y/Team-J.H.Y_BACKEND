@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 #이메일 인증 번호 스키마
 class email_code_schema(BaseModel):
     email: str
-    code: str
+    code: str = Field(pattern=r"^[0-9]{6}$")
