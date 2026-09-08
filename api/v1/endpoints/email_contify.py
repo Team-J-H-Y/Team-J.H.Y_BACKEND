@@ -1,5 +1,5 @@
 from fastapi import APIRouter,Depends,HTTPException
-from auth.auth_email_number import make_email_number
+from auth.auth_email import make_and_send_email_number, check_email_number
 from Schemas.auth_email_schema import auth_email_schema
 from sqlalchemy.orm import Session
 from sqlalchemy import select
@@ -31,9 +31,9 @@ router_email = APIRouter()
 #인증 번호 저장 변수 선언
 contify_code = {}
 
-#이메일 인증 함수
-@router_email.post("/api/v1/email")
-def email_contify(user_email:auth_email_schema, db:Session = Depends(Create_db)):
+#회원 가입 이메일 인증 함수
+@router_email.post("/api/v1/signup/email")
+def signup_email_contify(user_email:auth_email_schema, db:Session = Depends(Create_db)):
 
     #이메일 중복 검사
     exist_user = db.scalar(
@@ -46,29 +46,7 @@ def email_contify(user_email:auth_email_schema, db:Session = Depends(Create_db))
             detail = "이미 사용중인 이메일입니다."
         )
 
-    #인증 번호 저장
-    contify_code[user_email.email] = make_email_number(user_email.email)
-
-    #메세지 변수 선언
-    message = EmailMessage()
-
-    #이메일 메세지 작성
-    message["From"] = sender_email
-    message["To"] = user_email.email
-    message["Subject"] = "J.H.Y-이메일 인증번호"
-    message.set_content("인증 번호는 "+contify_code[user_email.email]["email_code"]+" 입니다.")
-
-    #Gmail SMTP 연결 및 발송
-    context = ssl.create_default_context()
-
-    with smtplib.SMTP_SSL(
-        "smtp.gmail.com",
-        465,
-        context=context,
-        timeout=10,
-    ) as smtp:
-        smtp.login(sender_email, password)
-        smtp.send_message(message)
+    make_and_send_email_number(user_email)
 
     return {
         "success":True
@@ -76,35 +54,15 @@ def email_contify(user_email:auth_email_schema, db:Session = Depends(Create_db))
 
 
 
-#이메일 인증 번호 검증 함수
-@router_email.post("/api/v1/email_code")
-def email_code_check(user_code:email_code_schema,db:Session = Depends(Create_db)):
+#회원 가입 이메일 인증 번호 검증 함수
+@router_email.post("/api/v1/signup/email_code")
+def signup_email_code_check(user_code:email_code_schema):
 
-    #기존 email 인증 검증
-    code = contify_code.get(user_code.email)
+    #인증 검중 함수 호출
+    result = check_email_number(user_code)
 
-    #기존 인증 여부 검증
-    if code is None:
-        return {
-        "success":False,
-        "massage":"이미 존재하는 이메일"
-    }
-
-
-    #만료 시간 검증
-    if time.monotonic() >= code["expires_at"]:
-        contify_code.pop(user_code.email, None)
-        return  {
-        "success":False,
-        "massage":"시간 초과"
-    }
-
-    #인증 번호 일치 여부 검증
-    if code["email_code"] != user_code.code:
-        return {
-        "success":False,
-        "massage":"인증 실패"
-    }
+    if result["success"] is False:
+        return result
 
     contify_code.pop(user_code.email, None)
 
