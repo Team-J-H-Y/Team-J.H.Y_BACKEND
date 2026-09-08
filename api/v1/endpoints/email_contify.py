@@ -85,19 +85,30 @@ def email_code_check(user_code:email_code_schema,db:Session = Depends(Create_db)
 
     #기존 인증 여부 검증
     if code is None:
-        return None
+        return {
+        "success":False,
+        "massage":"이미 존재하는 이메일"
+    }
+
 
     #만료 시간 검증
     if time.monotonic() >= code["expires_at"]:
         contify_code.pop(user_code.email, None)
-        return None
+        return  {
+        "success":False,
+        "massage":"시간 초과"
+    }
 
     #인증 번호 일치 여부 검증
     if code["email_code"] != user_code.code:
-        return None
+        return {
+        "success":False,
+        "massage":"인증 실패"
+    }
 
     contify_code.pop(user_code.email, None)
 
     return {
+        "success":True,
         "massage":"인증 성공"
     }
