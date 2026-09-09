@@ -32,6 +32,5 @@ class Users(Base):
 
     number: Mapped[str] = mapped_column(
         String(4),
-        nullable=False,
-        unique=True
+        nullable=False
     )

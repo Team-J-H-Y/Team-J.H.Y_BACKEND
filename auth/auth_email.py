@@ -5,6 +5,7 @@ import smtplib
 import ssl
 import os
 from Schemas.auth_email_schema import auth_email_schema
+from Schemas.email_code_schema import email_code_schema
 from dotenv import load_dotenv
 from pathlib import Path
 #--------------
@@ -59,12 +60,13 @@ def make_and_send_email_number(user_email:auth_email_schema) -> str:
         smtp.send_message(message)
     
     return {
-        "success":True
+        "success":True,
+        "message": "메일 발송 성공"
     }
 
 
 #인증 번호 검증 함수
-def check_email_number(user_code:str):
+def check_email_number(user_code:email_code_schema):
 
     #기존 email 인증 검증
     code = contify_code.get(user_code.email)

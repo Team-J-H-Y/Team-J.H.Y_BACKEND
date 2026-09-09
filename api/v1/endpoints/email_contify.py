@@ -6,13 +6,10 @@ from sqlalchemy import select
 from database.connection import Create_db
 from models.users import Users
 from Schemas.email_code_schema import email_code_schema
-from email.message import EmailMessage
 from pathlib import Path
 from dotenv import load_dotenv
-import time
 import os
-import smtplib
-import ssl
+
 #-----------------------------
 
 # 프로젝트 최상위 폴더 경로
@@ -31,7 +28,7 @@ router_email = APIRouter()
 #인증 번호 저장 변수 선언
 contify_code = {}
 
-#회원 가입 이메일 인증 함수
+#회원 가입 이메일 인증 번호 발송 함수
 @router_email.post("/api/v1/signup/email")
 def signup_email_contify(user_email:auth_email_schema, db:Session = Depends(Create_db)):
 
@@ -53,18 +50,15 @@ def signup_email_contify(user_email:auth_email_schema, db:Session = Depends(Crea
     }
 
 
-
-#회원 가입 이메일 인증 번호 검증 함수
-@router_email.post("/api/v1/signup/email_code")
-def signup_email_code_check(user_code:email_code_schema):
+#이메일 인증 번호 검증 함수
+@router_email.post("/api/v1/check/email_code")
+def email_code_check(user_code:email_code_schema):
 
     #인증 검중 함수 호출
     result = check_email_number(user_code)
 
     if result["success"] is False:
         return result
-
-    contify_code.pop(user_code.email, None)
 
     return {
         "success":True,
