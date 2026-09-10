@@ -10,7 +10,7 @@ from models.users import Users
 router_logout = APIRouter()
 
 #로그아웃 함수
-@router_logout.post("/logout")
+@router_logout.post("/api/v1/logout")
 def logout(response: Response, session_id: Users  = Depends(get_current_user), db: Session = Depends(Create_db)):
     if session_id is not None:
         delete_session(
